@@ -1,4 +1,4 @@
-# Kouleej! — A207503_AttarasyaAdyaJomantara_CikguIzwan_Project2
+# Kouleej! A207503_AttarasyaAdyaJomantara_CikguIzwan_Project2
 
 A Jetpack Compose quiz-builder app for **SDG 4: Quality Education**. Kouleej! lets
 learners create their own quizzes ("Kouleejes"), study from live trivia pulled off
@@ -37,17 +37,17 @@ manual DI container (`data/AppContainer.kt` + `AppViewModelProvider.kt`).
 
 ---
 
-## Screens (9 total — minimum was 7)
+## Screens (9 total, minimum was 7)
 
-1. **Home** — search, categories, and quick actions into the new features
-2. **Profile Setup** — form to enter learner profile
-3. **Profile Card** — displays the saved profile
-4. **Library** — lists locally-saved Kouleejes (Room)
-5. **Create Kouleej** — form that inserts a new quiz into Room
-6. **Kouleej Detail** — quiz details, **Share via QR code**, and **Share to community** (Firestore)
-7. **Discover** — live trivia questions fetched from Open Trivia DB (Retrofit)
-8. **Community** — quizzes shared by everyone, streamed live from Firestore
-9. **QR Scanner** — camera scans a Kouleej QR and opens that quiz (Camera + ML Kit)
+1. **Home**: search, categories, and quick actions into the new features
+2. **Profile Setup**: form to enter learner profile
+3. **Profile Card**: displays the saved profile
+4. **Library**: lists locally saved Kouleejes (Room)
+5. **Create Kouleej**: form that inserts a new quiz into Room
+6. **Kouleej Detail**: quiz details, **Share via QR code**, and **Share to community** (Firestore)
+7. **Discover**: live trivia questions fetched from Open Trivia DB (Retrofit)
+8. **Community**: quizzes shared by everyone, streamed live from Firestore
+9. **QR Scanner**: camera scans a Kouleej QR and opens that quiz (Camera + ML Kit)
 
 ---
 
