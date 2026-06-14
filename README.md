@@ -8,7 +8,7 @@ by scanning a QR code with the camera.
 > **Course:** TK2323 / TM2213 — Mobile Programming
 > **Student:** Attarasya Adya Jomantara (A207503)
 > **Instructor:** Cikgu Izwan
-> **Programme:** _TODO: add your programme_
+> **Programme:** Software Engineering
 > **SDG:** SDG 4 — Quality Education · *"Making it easy for anyone to create, share, and study from quizzes, anywhere."*
 
 ---
