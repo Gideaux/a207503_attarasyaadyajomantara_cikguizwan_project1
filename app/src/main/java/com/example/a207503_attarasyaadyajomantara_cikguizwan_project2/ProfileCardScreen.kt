@@ -1,4 +1,4 @@
-package com.example.a207503_attarasyaadyajomantara_cikguizwan_project1
+package com.example.a207503_attarasyaadyajomantara_cikguizwan_project2
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -144,8 +144,7 @@ fun ProfileCardScreen(
 @Composable
 private fun ProfileInfoRow(label: String, value: String) {
     Row(
-        modifier =
-            Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

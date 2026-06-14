@@ -1,4 +1,4 @@
-package com.example.a207503_attarasyaadyajomantara_cikguizwan_project1
+package com.example.a207503_attarasyaadyajomantara_cikguizwan_project2
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -20,7 +20,7 @@ class ExampleInstrumentedTest {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals(
-            "com.example.a207503_attarasyaadyajomantara_cikguizwan_project1",
+            "com.example.a207503_attarasyaadyajomantara_cikguizwan_project2",
             appContext.packageName
         )
     }

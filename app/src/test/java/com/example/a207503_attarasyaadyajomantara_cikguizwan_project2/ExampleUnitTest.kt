@@ -1,4 +1,4 @@
-package com.example.a207503_attarasyaadyajomantara_cikguizwan_project1
+package com.example.a207503_attarasyaadyajomantara_cikguizwan_project2
 
 import org.junit.Test
 

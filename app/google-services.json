@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "479470878845",
+    "project_id": "kouleej",
+    "storage_bucket": "kouleej.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:479470878845:android:563dfb6d36cb0d5a0bf114",
+        "android_client_info": {
+          "package_name": "com.example.a207503_attarasyaadyajomantara_cikguizwan_project2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnU4moG7Y--ntwepHPXUCAfdt9uNneFOk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

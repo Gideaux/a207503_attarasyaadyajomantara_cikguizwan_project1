@@ -1,4 +1,4 @@
-package com.example.a207503_attarasyaadyajomantara_cikguizwan_project1.ui.theme
+package com.example.a207503_attarasyaadyajomantara_cikguizwan_project2.ui.theme
 
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme

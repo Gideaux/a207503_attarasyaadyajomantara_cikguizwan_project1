@@ -1,4 +1,4 @@
-package com.example.a207503_attarasyaadyajomantara_cikguizwan_project1
+package com.example.a207503_attarasyaadyajomantara_cikguizwan_project2
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 // ─── Screen 5 — Create a new Kouleej (form) ──────────────────────
-// Visual language mirrors ProfileSetupScreen: same top bar, same
-// labels, same TextField / ExposedDropdownMenuBox / Button styling.
+// On submit, the title/subject/questionCount/description are passed up to the
+// NavGraph, which calls KouleejViewModel.addKouleej -> Room insertion.
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateKouleejScreen(

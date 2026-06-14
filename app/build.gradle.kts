@@ -1,10 +1,19 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
+}
+
+// ─── Project 2: Firebase (optional) ──────────────────────────────────────────
+// The Google Services plugin is only applied when a real google-services.json is
+// present. This keeps the project buildable (Room + Retrofit + Camera still work)
+// even before Firebase is configured. See README "Firebase setup" section.
+if (file("google-services.json").exists()) {
+    apply(plugin = "com.google.gms.google-services")
 }
 
 android {
-    namespace = "com.example.a207503_attarasyaadyajomantara_cikguizwan_project1"
+    namespace = "com.example.a207503_attarasyaadyajomantara_cikguizwan_project2"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -12,8 +21,8 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.a207503_attarasyaadyajomantara_cikguizwan_project1"
-        minSdk = 24
+        applicationId = "com.example.a207503_attarasyaadyajomantara_cikguizwan_project2"
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -31,8 +40,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
         compose = true
@@ -41,9 +50,34 @@ android {
 
 dependencies {
 
-    implementation("androidx.navigation:navigation-compose:2.9.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.10.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.10.0")
+    // Navigation + Lifecycle (carried over from Project 1)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+    // Room (Lab 5 — Step 4 of the codelab)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+
+    // ── Project 2 · Pillar 3: Internet data via Retrofit (Open Trivia DB) ──
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp.logging)
+
+    // ── Project 2 · Pillar 2: Cloud sync via Firebase Firestore ──
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.firestore)
+    implementation(libs.kotlinx.coroutines.play.services)
+
+    // ── Project 2 · Pillar 4: Camera + ML Kit QR scanning, plus ZXing QR generation ──
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.mlkit.barcode.scanning)
+    implementation(libs.zxing.core)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

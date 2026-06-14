@@ -1,4 +1,4 @@
-package com.example.a207503_attarasyaadyajomantara_cikguizwan_project1
+package com.example.a207503_attarasyaadyajomantara_cikguizwan_project2
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -27,14 +27,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
-import com.example.a207503_attarasyaadyajomantara_cikguizwan_project1.ui.theme.A207503_AttarasyaAdyaJomantara_CikguIzwan_Project1Theme
+import com.example.a207503_attarasyaadyajomantara_cikguizwan_project2.ui.theme.A207503_AttarasyaAdyaJomantara_CikguIzwan_Project2Theme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             var darkTheme by remember { mutableStateOf(true) }
-            A207503_AttarasyaAdyaJomantara_CikguIzwan_Project1Theme(darkTheme = darkTheme) {
+            A207503_AttarasyaAdyaJomantara_CikguIzwan_Project2Theme(darkTheme = darkTheme) {
                 val navController = rememberNavController()
                 KahootNavGraph(
                     navController = navController,
@@ -56,11 +56,15 @@ fun KahootHomeScreen(
     onToggleTheme: () -> Unit = {},
     onNavigateToProfile: () -> Unit = {},
     onNavigateToLibrary: () -> Unit = {},
-    onNavigateToCreate: () -> Unit = {}
+    onNavigateToCreate: () -> Unit = {},
+    onNavigateToDiscover: () -> Unit = {},
+    onNavigateToQrScan: () -> Unit = {},
+    onJoinByPin: (Int) -> Unit = {}
 ) {
     var searchText       by remember { mutableStateOf("") }
     var submittedSearch  by remember { mutableStateOf("") }
     var expandedMenu     by remember { mutableStateOf("") }
+    var showJoinDialog   by remember { mutableStateOf(false) }
 
     if (submittedSearch.isNotEmpty()) {
         SearchResultsScreen(
@@ -104,15 +108,22 @@ fun KahootHomeScreen(
                                 )
                             },
                             leadingIcon  = {
-                                Icon(Icons.Default.Search, null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                                Icon(
+                                    Icons.Default.Search,
+                                    contentDescription = "Search",
+                                    tint               = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier           = Modifier.clickable(enabled = searchText.isNotEmpty()) {
+                                        submittedSearch = searchText
+                                    }
+                                )
                             },
                             trailingIcon = {
                                 if (searchText.isNotEmpty()) {
                                     Icon(
-                                        Icons.Default.Search,
-                                        contentDescription = "Search",
-                                        tint               = MaterialTheme.colorScheme.tertiary,
-                                        modifier           = Modifier.clickable { submittedSearch = searchText }
+                                        Icons.Default.Close,
+                                        contentDescription = "Clear search",
+                                        tint               = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        modifier           = Modifier.clickable { searchText = "" }
                                     )
                                 }
                             },
@@ -288,19 +299,29 @@ fun KahootHomeScreen(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment     = Alignment.CenterVertically,
             ) {
-                NavItem(Icons.Default.Home,   "Home")
-                NavItem(Icons.Default.Search, "Discover", true)
+                NavItem(Icons.Default.Home,   "Home", active = true)
+                NavItem(Icons.Default.Search, "Discover", onClick = onNavigateToDiscover)
                 Box(
                     modifier        = Modifier
                         .size(55.dp)
                         .background(MaterialTheme.colorScheme.primary, CircleShape)
-                        .clickable { onNavigateToCreate() },
+                        .clickable { showJoinDialog = true },
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(Icons.Default.PlayArrow, null, tint = Color.White)
+                    Icon(Icons.Default.PlayArrow, "Join a Kouleej", tint = Color.White)
                 }
                 NavItem(Icons.Default.Add,  "Create", onClick = onNavigateToCreate)
                 NavItem(Icons.Default.Menu, "Library", onClick = onNavigateToLibrary)
+            }
+
+            // ── Join flow: tapping the center play button opens this dialog,
+            //    letting the user enter a PIN (Kouleej #) or scan a QR code ──
+            if (showJoinDialog) {
+                JoinKouleejDialog(
+                    onDismiss   = { showJoinDialog = false },
+                    onJoinByPin = { id -> showJoinDialog = false; onJoinByPin(id) },
+                    onScanQr    = { showJoinDialog = false; onNavigateToQrScan() }
+                )
             }
         }
     }
@@ -381,6 +402,94 @@ fun FeaturedKahootCard(number: String, title: String, subtitle: String, details:
                     Text("Play Now")
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun JoinKouleejDialog(
+    onDismiss: () -> Unit,
+    onJoinByPin: (Int) -> Unit,
+    onScanQr: () -> Unit
+) {
+    var pin by remember { mutableStateOf("") }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Join a Kouleej", fontWeight = FontWeight.Bold) },
+        text = {
+            Column {
+                Text(
+                    "Enter a game PIN (the Kouleej #) to jump straight into a quiz, " +
+                        "or scan its QR code.",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Spacer(Modifier.height(16.dp))
+                OutlinedTextField(
+                    value = pin,
+                    onValueChange = { input -> pin = input.filter { it.isDigit() }.take(6) },
+                    label = { Text("Game PIN") },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
+                        keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
+                    )
+                )
+                Spacer(Modifier.height(14.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    HorizontalDivider(modifier = Modifier.weight(1f))
+                    Text(
+                        "  or  ",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    HorizontalDivider(modifier = Modifier.weight(1f))
+                }
+                Spacer(Modifier.height(14.dp))
+                OutlinedButton(
+                    onClick = onScanQr,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(Icons.Default.Search, contentDescription = null)
+                    Spacer(Modifier.width(8.dp))
+                    Text("Scan QR code")
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = { pin.toIntOrNull()?.let(onJoinByPin) },
+                enabled = pin.isNotBlank()
+            ) { Text("Join") }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) { Text("Cancel") }
+        }
+    )
+}
+
+@Composable
+fun QuickAction(
+    icon: ImageVector,
+    label: String,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier  = modifier.clickable { onClick() },
+        shape     = RoundedCornerShape(12.dp),
+        colors    = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 14.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(icon, contentDescription = label, tint = MaterialTheme.colorScheme.primary)
+            Spacer(Modifier.height(6.dp))
+            Text(label, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface)
         }
     }
 }

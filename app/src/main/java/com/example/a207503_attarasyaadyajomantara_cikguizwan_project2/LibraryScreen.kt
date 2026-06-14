@@ -1,4 +1,4 @@
-package com.example.a207503_attarasyaadyajomantara_cikguizwan_project1
+package com.example.a207503_attarasyaadyajomantara_cikguizwan_project2
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,6 +11,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,26 +22,30 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.a207503_attarasyaadyajomantara_cikguizwan_project2.data.KouleejEntity
 
 @Composable
 fun LibraryScreen(
-    kouleejes: List<Kouleej>,
+    kouleejes: List<KouleejEntity>,
     onBack: () -> Unit,
     onKouleejTap: (Int) -> Unit,
-    onCreateNew: () -> Unit
+    onCreateNew: () -> Unit,
+    onJoinByPin: (Int) -> Unit = {},
+    onScanQr: () -> Unit = {}
 ) {
+    var showJoinDialog by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
             .statusBarsPadding()
     ) {
-        // ── Top bar ──────────────────────────────────────────────
-        Box(
+        // ── Top bar (no back button — navigation is via the bottom bar) ──
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            contentAlignment = Alignment.Center
+                .padding(horizontal = 20.dp, vertical = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 "Library",
@@ -85,11 +93,6 @@ fun LibraryScreen(
                     "My Kouleejes",
                     style = MaterialTheme.typography.titleMedium
                 )
-                // "+ Create" affordance — matches the Kahoot visual language
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                }
             }
 
             if (kouleejes.isEmpty()) {
@@ -137,13 +140,23 @@ fun LibraryScreen(
                 modifier        = Modifier
                     .size(55.dp)
                     .background(MaterialTheme.colorScheme.primary, CircleShape)
-                    .clickable { onCreateNew() },
+                    .clickable { showJoinDialog = true },
                 contentAlignment = Alignment.Center
             ) {
-                Icon(Icons.Default.PlayArrow, null, tint = Color.White)
+                Icon(Icons.Default.PlayArrow, "Join a Kouleej", tint = Color.White)
             }
             NavItem(Icons.Default.Add,  "Create", onClick = onCreateNew)
             NavItem(Icons.Default.Menu, "Library", active = true)
+        }
+
+        // Center play button opens the Join dialog (enter a PIN or scan a QR),
+        // matching the Home screen — it is no longer a duplicate Create button.
+        if (showJoinDialog) {
+            JoinKouleejDialog(
+                onDismiss   = { showJoinDialog = false },
+                onJoinByPin = { id -> showJoinDialog = false; onJoinByPin(id) },
+                onScanQr    = { showJoinDialog = false; onScanQr() }
+            )
         }
     }
 }
@@ -188,9 +201,9 @@ private fun LibraryItem(icon: ImageVector, label: String) {
     }
 }
 
-// ── Row representing one user-created Kouleej (Project 1) ───────
+// ── Row representing one user-created Kouleej (Room-backed) ──────
 @Composable
-private fun KouleejRow(kouleej: Kouleej, onClick: () -> Unit) {
+private fun KouleejRow(kouleej: KouleejEntity, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()

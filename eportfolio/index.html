@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="e-Portfolio of Attarasya Adya Jomantara (A207503) — Mobile Programming TTTM2213, SDG 4 Quality Education." />
+  <title>A207503_AttarasyaAdyaJomantara_CikguIzwan_Project2</title>
+  <style>
+    /* ── SDG 4 (Quality Education) palette: official red #C5192D ── */
+    :root {
+      --sdg: #C5192D;
+      --sdg-dark: #9c1322;
+      --ink: #1d1d1f;
+      --muted: #5b5b60;
+      --bg: #ffffff;
+      --bg-alt: #fbf3f4;
+      --card: #ffffff;
+      --border: #ecd9db;
+      --radius: 14px;
+      --shadow: 0 6px 22px rgba(0,0,0,.08);
+      --maxw: 1040px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+    a { color: var(--sdg-dark); }
+    img { max-width: 100%; height: auto; display: block; }
+
+    /* ── Sticky top nav ── */
+    .topnav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topnav .wrap {
+      max-width: var(--maxw); margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 20px; gap: 12px; flex-wrap: wrap;
+    }
+    .brand { font-weight: 800; color: var(--sdg); letter-spacing: .2px; }
+    .topnav ul {
+      list-style: none; display: flex; gap: 6px; margin: 0; padding: 0; flex-wrap: wrap;
+    }
+    .topnav a {
+      display: inline-block; padding: 8px 12px; border-radius: 999px;
+      text-decoration: none; color: var(--ink); font-weight: 600; font-size: .95rem;
+    }
+    .topnav a:hover, .topnav a:focus { background: var(--bg-alt); color: var(--sdg-dark); outline: none; }
+
+    /* ── Layout helpers ── */
+    section { max-width: var(--maxw); margin: 0 auto; padding: 64px 20px 24px; }
+    section:nth-of-type(even) { background: transparent; }
+    .band { background: var(--bg-alt); max-width: none; }
+    .band > .inner { max-width: var(--maxw); margin: 0 auto; padding: 0; }
+    h1, h2, h3 { line-height: 1.25; }
+    h2 {
+      font-size: 1.7rem; margin: 0 0 6px;
+      display: inline-block; border-bottom: 4px solid var(--sdg); padding-bottom: 6px;
+    }
+    .section-intro { color: var(--muted); margin: 8px 0 28px; max-width: 70ch; }
+
+    /* ── Hero / profile ── */
+    .hero {
+      background: linear-gradient(135deg, var(--sdg) 0%, var(--sdg-dark) 100%);
+      color: #fff;
+    }
+    .hero .inner {
+      max-width: var(--maxw); margin: 0 auto; padding: 72px 20px;
+    }
+    .hero .badge {
+      display: inline-block; background: rgba(255,255,255,.18);
+      padding: 6px 14px; border-radius: 999px; font-weight: 700; font-size: .85rem;
+      margin-bottom: 16px;
+    }
+    .hero h1 { font-size: 2.4rem; margin: 0 0 8px; }
+    .hero p { font-size: 1.1rem; max-width: 60ch; margin: 8px 0; color: rgba(255,255,255,.92); }
+    .profile-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px; margin-top: 26px;
+    }
+    .profile-grid .item {
+      background: rgba(255,255,255,.12); border-radius: 12px; padding: 14px 16px;
+    }
+    .profile-grid .item span { display: block; font-size: .78rem; text-transform: uppercase; letter-spacing: .6px; opacity: .8; }
+    .profile-grid .item strong { font-size: 1.02rem; }
+
+    /* ── Cards ── */
+    .grid {
+      display: grid; gap: 22px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow);
+      overflow: hidden; display: flex; flex-direction: column;
+    }
+    .card .body { padding: 18px 20px 22px; }
+    .card h3 { margin: 0 0 6px; font-size: 1.15rem; }
+    .tag {
+      display: inline-block; background: var(--bg-alt); color: var(--sdg-dark);
+      border: 1px solid var(--border); border-radius: 999px;
+      padding: 3px 10px; font-size: .76rem; font-weight: 700; margin-bottom: 10px;
+    }
+    .card p { margin: 8px 0; color: var(--muted); }
+    .card .reflection {
+      margin-top: 12px; padding: 12px 14px; background: var(--bg-alt);
+      border-left: 4px solid var(--sdg); border-radius: 8px; color: var(--ink); font-size: .95rem;
+    }
+
+    /* ── Responsive 16:9 video wrapper ── */
+    .video {
+      position: relative; width: 100%; padding-top: 56.25%;
+      background: #11111a;
+    }
+    .video iframe, .video .placeholder {
+      position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
+    }
+    .video .placeholder {
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      color: #fff; padding: 20px; font-size: .9rem; background: #2a2a33;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-block; margin-top: 12px; padding: 10px 18px;
+      background: var(--sdg); color: #fff; text-decoration: none;
+      border-radius: 10px; font-weight: 700; font-size: .92rem;
+    }
+    .btn:hover, .btn:focus { background: var(--sdg-dark); outline: none; }
+    .btn.secondary { background: transparent; color: var(--sdg-dark); border: 2px solid var(--sdg); }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .actions .btn { margin-top: 0; }
+
+    /* ── Card display area: screenshots are the main visual ── */
+    .display {
+      background: var(--bg-alt);
+      display: flex; flex-wrap: wrap; gap: 14px;
+      align-items: center; justify-content: center;
+      padding: 20px; border-bottom: 1px solid var(--border);
+      min-height: 170px;
+    }
+    .shot {
+      display: flex; flex-direction: column; align-items: center;
+      width: 140px; text-decoration: none;
+    }
+    .shot img {
+      width: 140px; border-radius: 10px; border: 1px solid var(--border);
+      box-shadow: 0 2px 10px rgba(0,0,0,.14); cursor: zoom-in; background: #f4f4f6;
+    }
+    .shot span { font-size: .74rem; color: var(--muted); margin-top: 6px; text-align: center; }
+    .display .placeholder { color: var(--muted); font-size: .9rem; text-align: center; max-width: 30ch; }
+
+    /* ── Skills ── */
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+    .chip {
+      background: var(--bg-alt); border: 1px solid var(--border);
+      padding: 8px 14px; border-radius: 999px; font-weight: 600; font-size: .9rem;
+    }
+    ul.clean { padding-left: 20px; } ul.clean li { margin: 6px 0; }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--ink); color: #fff; text-align: center;
+      padding: 30px 20px; margin-top: 40px;
+    }
+    footer p { margin: 4px 0; color: rgba(255,255,255,.85); }
+
+    a.skip {
+      position: absolute; left: -999px;
+    }
+    a.skip:focus {
+      left: 12px; top: 12px; background: #fff; color: var(--sdg-dark);
+      padding: 10px 14px; border-radius: 8px; z-index: 200;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 1.9rem; }
+      h2 { font-size: 1.45rem; }
+      section { padding-top: 48px; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#home">Skip to content</a>
+
+  <!-- ─────────────── Sticky navigation ─────────────── -->
+  <nav class="topnav" aria-label="Primary">
+    <div class="wrap">
+      <span class="brand">Kouleej! · A207503</span>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#labs">Labs</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#reflection">Reflection</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#resources">Resources</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ─────────────── Home / Profile ─────────────── -->
+  <header class="hero" id="home">
+    <div class="inner">
+      <span class="badge">SDG 4 · Quality Education</span>
+      <h1>Attarasya Adya Jomantara</h1>
+      <p><strong>Kouleej!</strong> an educational app using Jetpack Compose that makes it easy for anyone to
+      create, share, and study from quizzes anywhere they want.</p>
+      <p><em>"Quality education should be one scan away."</em></p>
+
+      <div class="profile-grid">
+        <div class="item"><span>Matric No.</span><strong>A207503</strong></div>
+        <div class="item"><span>Programme</span><strong>Software Engineering</strong></div>
+        <div class="item"><span>Instructor</span><strong>Cikgu Izwan</strong></div>
+        <div class="item"><span>Course</span><strong>TTTM2213</strong></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Short intro / learning goals -->
+  <section aria-labelledby="about-h">
+    <h2 id="about-h">About &amp; Learning Goals</h2>
+    <p class="section-intro">
+      I'm a software engineering student building Android apps with Kotlin and Jetpack
+      Compose. The goal of this semester was to create an app from static UI screens to a fully
+      connected app, an app that stores data locally, syncs to the cloud, pulls live
+      data from the internet, and uses device hardware properly. This portfolio is collection of all my
+      lab work and two project reports built around <strong>SDG 4: Quality Education</strong>.
+    </p>
+  </section>
+
+  <!-- ─────────────── Labs ─────────────── -->
+  <div class="band">
+    <section id="labs" aria-labelledby="labs-h">
+      <h2 id="labs-h">Lab Submissions</h2>
+      <p class="section-intro">Five labs tracing the build-up of skills from UI to local databases.</p>
+      <div class="grid" id="labs-grid"><!-- cards injected by script --></div>
+    </section>
+  </div>
+
+  <!-- ─────────────── Projects ─────────────── -->
+  <section id="projects" aria-labelledby="projects-h">
+    <h2 id="projects-h">Projects</h2>
+    <p class="section-intro">Two SDG 4 projects: a multi-screen Compose app, then a fully connected upgrade.</p>
+    <div class="grid" id="projects-grid"><!-- cards injected by script --></div>
+  </section>
+
+  <!-- ─────────────── Reflection ─────────────── -->
+  <div class="band">
+    <section id="reflection" aria-labelledby="reflection-h">
+      <h2 id="reflection-h">Reflection &amp; Learning Journey</h2>
+      <p class="section-intro">
+        I started this class unable to lay out a screen and unsure how apps cam actually
+        hold and move data. But after building Kouleej! I started to unstand the gist of Mobile Application Development. Project 1 taught me to think
+        in terms of navigation and a single shared <strong>ViewModel</strong> and Project 2
+        forced me to connect that state to four very different data sources. A local
+        <strong>Room</strong> database, <strong>Firebase Firestore</strong> in the cloud,
+        a live <strong>REST API</strong> through Retrofit, and the <strong>camera</strong>
+        via ML Kit. The hardest part was just inconsistencies in UI and debugging random parts of my code because it  kept breaking. But the payoff for SDG 4 is direct
+        now a learner with a cheap phone can now build a quiz, share it, and let a whole class
+        join by scanning a QR code with no logins or links required.
+      </p>
+    </section>
+  </div>
+
+  <!-- ─────────────── Skills ─────────────── -->
+  <section id="skills" aria-labelledby="skills-h">
+    <h2 id="skills-h">Skills &amp; Tech Stack</h2>
+    <p class="section-intro">Technologies I can use confidently after this module.</p>
+    <div class="chips">
+      <span class="chip">Kotlin</span>
+      <span class="chip">Jetpack Compose</span>
+      <span class="chip">Material 3</span>
+      <span class="chip">Navigation Compose</span>
+      <span class="chip">ViewModel + StateFlow</span>
+      <span class="chip">Room Database</span>
+      <span class="chip">Firebase Firestore</span>
+      <span class="chip">Retrofit + Gson</span>
+      <span class="chip">CameraX</span>
+      <span class="chip">ML Kit (QR)</span>
+      <span class="chip">ZXing</span>
+      <span class="chip">Coroutines</span>
+      <span class="chip">Git &amp; GitHub</span>
+    </div>
+  </section>
+
+  <!-- ─────────────── Resources ─────────────── -->
+  <div class="band">
+    <section id="resources" aria-labelledby="resources-h">
+      <h2 id="resources-h">Resources &amp; References</h2>
+      <p class="section-intro">APIs, libraries, and tools used across the projects.</p>
+      <ul class="clean">
+        <li><a href="https://opentdb.com" target="_blank" rel="noopener">Open Trivia Database</a> — free public REST API for quiz questions (Pillar 3).</li>
+        <li><a href="https://firebase.google.com/docs/firestore" target="_blank" rel="noopener">Firebase Firestore</a> — cloud NoSQL database for shared community quizzes (Pillar 2).</li>
+        <li><a href="https://developers.google.com/ml-kit/vision/barcode-scanning" target="_blank" rel="noopener">Google ML Kit Barcode Scanning</a> — on-device QR scanning (Pillar 4).</li>
+        <li><a href="https://github.com/zxing/zxing" target="_blank" rel="noopener">ZXing</a> — QR code generation.</li>
+        <li><a href="https://square.github.io/retrofit/" target="_blank" rel="noopener">Retrofit</a> &amp; <a href="https://developer.android.com/training/data-storage/room" target="_blank" rel="noopener">Room</a> — networking and local persistence.</li>
+        <li><a href="https://developer.android.com/jetpack/compose" target="_blank" rel="noopener">Jetpack Compose</a> &amp; <a href="https://developer.android.com/training/camerax" target="_blank" rel="noopener">CameraX</a> — UI toolkit and camera.</li>
+        <li><strong>AI assistance:</strong> An AI coding assistant helped scaffold and refactor boilerplate.
+        All generated code was reviewed, understood, and can be explained and modified by me.</li>
+      </ul>
+    </section>
+  </div>
+
+  <!-- ─────────────── Footer ─────────────── -->
+  <footer>
+    <p><strong>Attarasya Adya Jomantara</strong> · A207503</p>
+    <p>TK2323 / TM2213 Mobile Programming · SDG 4 Quality Education · 2026</p>
+  </footer>
+
+  <script>
+    const CONFIG = {
+      labs: [
+        { title: "Lab 1: UI",            youtube: "wQ9ps1etMfQ", desc: "Building static layouts and the first Compose screens.",
+          shots: [ { src: "screenshots/lab1-home.png", label: "Home screen" } ],
+          reflection: "Learned how to build screens with Jetpack Compose instead of XML layouts and working with composables and modifiers for sizing and spacing." },
+        { title: "Lab 2: Interaction",   youtube: "OL0TWSaGSW0", desc: "Handling state, clicks, and user input.",
+          shots: [],
+          reflection: "This lab taught me how Compose handles state with remember and mutableStateOf and how recomposition automatically updates the UI when state has changes." },
+        { title: "Lab 3: Material Design", youtube: "I6jlHfUkpQ0", desc: "Applying Material 3 theming, colours, and typography.",
+          shots: [],
+          reflection: "Learned to apply Material 3 theming so the whole app had consistent colour schemes, typography, and shapes." },
+        { title: "Lab 4: Navigation",    youtube: "74PShaEU2LY", desc: "Multi-screen navigation and a shared ViewModel.",
+          shots: [],
+          reflection: "This lab taught me about multiscreen navigation with NavHost and route based destinations so my application could move between screens smoothly." },
+        { title: "Lab 5: Room",          youtube: "CSMEEXKO5q4", desc: "Persisting data locally with the Room database.",
+          shots: [],
+          reflection: "Learned to persist data locally with Room using entities, DAO, and a database class with KSP generating the implementation at compile time." }
+      ],
+      projects: [
+        {
+          title: "Project 1 — Kouleej! (Compose + Navigation)",
+          tag: "SDG 4 · 5 screens",
+          youtube: "WUaDvqqobYI",
+          github: "",
+          shots: [],
+          problem: "Learners lack a simple, offline-friendly way to build and review their own quizzes. Project 1 delivered a 5-screen Compose app with shared ViewModel state to create and browse quizzes.",
+          lessons: "TODO: lessons learned — e.g. structuring navigation, lifting state into a ViewModel, and the UI/UX feedback you got."
+        },
+        {
+          title: "Project 2 — Kouleej! Connected",
+          tag: "SDG 4 · 9 screens · 4 pillars",
+          youtube: "",
+          github: "",
+          shots: [],
+          problem: "Quizzes were trapped on one device. Project 2 upgrades Kouleej! into a connected app: Room for offline quizzes, Firebase Firestore to share with a community, Retrofit (Open Trivia DB) for live study questions, and a Camera + ML Kit QR scanner to join a quiz instantly.",
+          lessons: "TODO: lessons learned — e.g. coordinating four data sources, async flows, camera lifecycle, and Firestore real-time updates."
+        }
+      ]
+    };
+
+    /* ── Renderer (no need to edit below) ── */
+
+    /* The card's main visual: a row of labelled screenshots.
+       Pass shots like [ { src: "screenshots/lab1-home.png", label: "Home" } ].
+       Falls back to a tidy placeholder when none are added yet. */
+    function displayBlock(shots, label) {
+      if (shots && shots.length) {
+        return `<div class="display">` + shots.map(s => `
+          <a class="shot" href="${s.src}" target="_blank" rel="noopener">
+            <img src="${s.src}" alt="${s.label}" loading="lazy" />
+            <span>${s.label}</span>
+          </a>`).join("") + `</div>`;
+      }
+      return `<div class="display"><div class="placeholder">📷 ${label} screenshots — add image files in CONFIG to show them here.</div></div>`;
+    }
+
+    /* YouTube link rendered as a button instead of an embedded player. */
+    function ytBtn(id) {
+      if (id && id.trim())
+        return `<a class="btn" href="https://youtu.be/${id.trim()}" target="_blank" rel="noopener">▶ Watch on YouTube</a>`;
+      return `<a class="btn secondary" href="#" aria-disabled="true" onclick="return false">▶ Watch (add link)</a>`;
+    }
+
+    function linkBtn(url, text) {
+      if (url && url.trim()) return `<a class="btn secondary" href="${url.trim()}" target="_blank" rel="noopener">${text}</a>`;
+      return `<a class="btn secondary" href="#" aria-disabled="true" onclick="return false">${text} (add link)</a>`;
+    }
+
+    document.getElementById("labs-grid").innerHTML = CONFIG.labs.map(l => `
+      <article class="card">
+        ${displayBlock(l.shots, l.title)}
+        <div class="body">
+          <h3>${l.title}</h3>
+          <p>${l.desc}</p>
+          <p class="reflection">${l.reflection}</p>
+          <div class="actions">${ytBtn(l.youtube)}</div>
+        </div>
+      </article>`).join("");
+
+    document.getElementById("projects-grid").innerHTML = CONFIG.projects.map(p => `
+      <article class="card">
+        ${displayBlock(p.shots, p.title)}
+        <div class="body">
+          <span class="tag">${p.tag}</span>
+          <h3>${p.title}</h3>
+          <p><strong>Problem:</strong> ${p.problem}</p>
+          <p class="reflection"><strong>Lessons learned:</strong> ${p.lessons}</p>
+          <div class="actions">${ytBtn(p.youtube)}${linkBtn(p.github, "View on GitHub")}</div>
+        </div>
+      </article>`).join("");
+  </script>
+</body>
+</html>

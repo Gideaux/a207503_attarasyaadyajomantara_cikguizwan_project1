@@ -22,5 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "A207503_AttarasyaAdyaJomantara_CikguIzwan_Project_1"
+rootProject.name = "A207503_AttarasyaAdyaJomantara_CikguIzwan_Project2"
 include(":app")
